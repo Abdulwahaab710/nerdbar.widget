@@ -8,15 +8,16 @@
   # ─── CONSTANTS ──────────────────────────────────────────────────────────────
   #
 
-  MAX_LENGTH = 40
+  MAX_LENGTH = 100
 
   #
   # ─── ALL COMMANDS ───────────────────────────────────────────────────────────
   #
 
   commands =
-    owner: "/usr/local/bin/chunkc tiling::query --window owner"
-    name:  "/usr/local/bin/chunkc tiling::query --window name"
+    # owner: "/usr/local/bin/chunkc tiling::query --window owner"
+    owner: ""
+    name: "(/usr/local/bin/yabai -m query --windows --window 2> /dev/null || echo '{\"title\": \"Empty Desktop!\"}') | /usr/local/bin/jq .title | sed 's/\"//g'"
 
   #
   # ─── GLOBALS ────────────────────────────────────────────────────────────────
@@ -84,11 +85,11 @@
 
     if name.replace( /([ \t\n])/g, "" ).length > 0
       if name.length > MAX_LENGTH
-        globals.name = name.substr(0, 40) + "..."
+        globals.name = name.substr(0, MAX_LENGTH) + "..."
       else
         globals.name = name
 
-    $( ".window-output" ).text( "#{ globals.owner } - #{ globals.name }" )
+    $( ".window-output" ).text( "#{ globals.name }" )
 
   #
   # ─── STYLE ──────────────────────────────────────────────────────────────────
@@ -108,7 +109,7 @@
 
     top: 3.5px
     left: 0px
-    font-family: 'Fira Code'
+    font-family: 'PragmataPro Liga'
     font-size: 13px
     font-smoothing: antialiasing
     z-index: 0
